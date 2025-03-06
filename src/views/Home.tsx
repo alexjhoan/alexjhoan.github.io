@@ -23,6 +23,12 @@ import { useCategoriesSelected, useCategorySelected, useStoreActions, useStoreSe
 import { useCartActions, useCartSelected } from '../store/user'
 import { StoreDataTypes } from '../types/types'
 import { containerWidth } from '../utils/const'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Navigation, Autoplay } from 'swiper/modules'
+// @ts-ignore
+import 'swiper/css'
+// @ts-ignore
+import 'swiper/css/navigation'
 
 const imgProduct: any = {
   'Frutas Frescas': '/images/frutas.jpg',
@@ -30,16 +36,40 @@ const imgProduct: any = {
   Tropicales: '/images/tropicales.jpeg'
 }
 
+const BoxBanner = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  maxHeight: '350px',
+  height: '50%',
+  marginBottom: '32px',
+  width: '100%',
+  borderRadius: 15,
+  overflow: 'hidden',
+  '.swiper-slide': {
+    display: 'flex'
+  },
+  img: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    objectPosition: 'center'
+  },
+  '[class^="swiper-button"]': {
+    color: theme.palette.common.white
+  }
+}))
+
 const BoxItems = styled(Box)(({ theme }) => ({
   display: 'grid',
-  gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
+  gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))',
+  justifyItems: 'center',
   gap: theme.spacing(2),
-  padding: theme.spacing(2, 0, 10)
+  padding: theme.spacing(4, 0, 10)
 }))
 
 const Home = () => {
   const theme = useTheme()
-  const isXs = useMediaQuery(theme.breakpoints.down('sm'))
+  const isSm = useMediaQuery(theme.breakpoints.down('md'))
+  const isMd = useMediaQuery(theme.breakpoints.down('lg'))
   const data = useStoreSelected()
   const [dataTable, setDataTable] = useState<StoreDataTypes[]>([])
   const cart = useCartSelected()
@@ -92,7 +122,34 @@ const Home = () => {
   return (
     <PublicLayout>
       <Container maxWidth={containerWidth}>
-        <Stack direction={isXs ? 'column' : 'row'} justifyContent={'space-between'}>
+        <BoxBanner>
+          <Swiper
+            navigation={true}
+            loop={true}
+            slidesPerView={1}
+            modules={[Autoplay, Navigation]}
+            autoplay={{
+              delay: 3000,
+              disableOnInteraction: false
+            }}
+          >
+            <SwiperSlide>
+              <img src="/banner/1.jpg" alt="banner" />
+            </SwiperSlide>
+            <SwiperSlide>
+              <img src="/banner/2.jpg" alt="banner" />
+            </SwiperSlide>
+            <SwiperSlide>
+              <img src="/banner/3.jpg" alt="banner" />
+            </SwiperSlide>
+          </Swiper>
+        </BoxBanner>
+        <Stack
+          direction={isSm ? 'column' : 'row'}
+          justifyContent={isMd ? 'space-between' : 'center'}
+          alignItems={'center'}
+          gap={2}
+        >
           <Box sx={{ display: { xs: 'block', lg: 'none' } }}>
             <AutocompleteCustom
               label={'Categorias'}
@@ -100,16 +157,16 @@ const Home = () => {
               value={category}
               onChange={(_event: any, newValue: string) => updateCategory(newValue)}
               // getOptionLabel={(option: any) => option.name?.common}
-              style={{ maxWidth: '100%', minWidth: 300 }}
+              style={{ maxWidth: '100%', minWidth: 300, width: isMd ? 300 : 600, marginBottom: '-16px' }}
             />
           </Box>
-          <Box maxWidth={'100%'} minWidth={300}>
+          <Box maxWidth={'100%'} width={isMd ? 300 : 600} minWidth={300}>
             {InputSearcher}
           </Box>
         </Stack>
         <BoxItems>
           {(searchedData && inputSearch !== '' ? searchedData : dataTable).map((item: StoreDataTypes, i: number) => (
-            <Card key={i} sx={{ maxWidth: 250 }}>
+            <Card key={i} sx={{ minWidth: 230, width: '100%' }}>
               <CardActionArea>
                 <CardMedia component="img" height="140" image={imgProduct[item.category]} alt={item.category} />
                 <CardContent>

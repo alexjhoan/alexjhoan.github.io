@@ -11,7 +11,7 @@ const ContainerLayout = styled(Box)(({ theme }) => ({
   '.innerContent': {
     display: 'flex',
     flexDirection: 'column',
-    width: 'calc(100% - 80px)',
+    width: 'calc(100% - 300px)',
     minHeight: 'calc(100vh - 80px)',
     [theme.breakpoints.down('lg')]: {
       width: '100%'
