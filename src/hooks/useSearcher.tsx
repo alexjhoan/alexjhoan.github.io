@@ -28,7 +28,7 @@ export const useSearcher = () => {
     inputSearch,
     InputSearcher: (
       <Stack alignItems={'flex-end'}>
-        <CustomInput fullWidth={false} value={inputSearch} label={'Buscar...'} onChange={search} mb={0} />
+        <CustomInput fullWidth={true} value={inputSearch} label={'Buscar...'} onChange={search} mb={0} />
       </Stack>
     )
   }

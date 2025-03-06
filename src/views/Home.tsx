@@ -9,18 +9,20 @@ import {
   Container,
   Stack,
   styled,
-  Typography
+  Typography,
+  useMediaQuery,
+  useTheme
 } from '@mui/material'
-import { useNavigate } from 'react-router'
-import TypographyMoney from '../components/TypografyMoney'
-import PublicLayout from '../layouts/Public'
-import { useStoreActions, useStoreSelected } from '../store/products'
-import { useCartActions, useCartSelected } from '../store/user'
-import { containerWidth } from '../utils/const'
 import { enqueueSnackbar } from 'notistack'
-import { useEffect } from 'react'
-import { StoreDataTypes } from '../types/types'
+import { useEffect, useState } from 'react'
+import AutocompleteCustom from '../components/AutocompleteCustom'
+import TypographyMoney from '../components/TypografyMoney'
 import { useSearcher } from '../hooks/useSearcher'
+import PublicLayout from '../layouts/Public'
+import { useCategoriesSelected, useCategorySelected, useStoreActions, useStoreSelected } from '../store/products'
+import { useCartActions, useCartSelected } from '../store/user'
+import { StoreDataTypes } from '../types/types'
+import { containerWidth } from '../utils/const'
 
 const imgProduct: any = {
   'Frutas Frescas': '/images/frutas.jpg',
@@ -30,28 +32,40 @@ const imgProduct: any = {
 
 const BoxItems = styled(Box)(({ theme }) => ({
   display: 'grid',
-  gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))',
+  gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
   gap: theme.spacing(2),
-  padding: theme.spacing(4, 0, 10)
+  padding: theme.spacing(2, 0, 10)
 }))
 
 const Home = () => {
+  const theme = useTheme()
+  const isXs = useMediaQuery(theme.breakpoints.down('sm'))
   const data = useStoreSelected()
+  const [dataTable, setDataTable] = useState<StoreDataTypes[]>([])
   const cart = useCartSelected()
   const { updateData } = useStoreActions()
   const { updateCart } = useCartActions()
-  const navigate = useNavigate()
+  const category = useCategorySelected()
+  const categories = useCategoriesSelected()
+  const { updateCategory } = useStoreActions()
   const { inputSearch, getAllDataSearch, searchedData, InputSearcher } = useSearcher()
 
   useEffect(() => {
     let mount = true
     if (mount) {
-      getAllDataSearch(data)
+      if (category === 'Todo') {
+        getAllDataSearch(data)
+        setDataTable(data)
+      } else {
+        const newData = data.filter((item) => item.category === category)
+        getAllDataSearch(newData)
+        setDataTable(newData)
+      }
     }
     return () => {
       mount = false
     }
-  }, [data])
+  }, [data, category])
 
   const handleAddToCart = (idx: number) => {
     const updatedCart = [...cart]
@@ -78,12 +92,24 @@ const Home = () => {
   return (
     <PublicLayout>
       <Container maxWidth={containerWidth}>
-        <Stack direction={'row'} justifyContent={'center'}>
-          {InputSearcher}
+        <Stack direction={isXs ? 'column' : 'row'} justifyContent={'space-between'}>
+          <Box sx={{ display: { xs: 'block', lg: 'none' } }}>
+            <AutocompleteCustom
+              label={'Categorias'}
+              options={['Todo', ...categories]}
+              value={category}
+              onChange={(_event: any, newValue: string) => updateCategory(newValue)}
+              // getOptionLabel={(option: any) => option.name?.common}
+              style={{ maxWidth: '100%', minWidth: 300 }}
+            />
+          </Box>
+          <Box maxWidth={'100%'} minWidth={300}>
+            {InputSearcher}
+          </Box>
         </Stack>
         <BoxItems>
-          {(searchedData && inputSearch !== '' ? searchedData : data).map((item: StoreDataTypes, i: number) => (
-            <Card key={i} sx={{ maxWidth: 350 }}>
+          {(searchedData && inputSearch !== '' ? searchedData : dataTable).map((item: StoreDataTypes, i: number) => (
+            <Card key={i} sx={{ maxWidth: 250 }}>
               <CardActionArea>
                 <CardMedia component="img" height="140" image={imgProduct[item.category]} alt={item.category} />
                 <CardContent>

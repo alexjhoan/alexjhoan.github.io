@@ -1,14 +1,30 @@
-import { Box, useMediaQuery, useTheme } from '@mui/material'
+import { Box, useMediaQuery, useTheme, styled, Container, Stack } from '@mui/material'
 import { ReactNode, useEffect } from 'react'
 import { useStoreActions } from '../store/products'
 import { useCartActions, useUserActions, useUsersActions } from '../store/user'
 import { mockData } from '../utils/mockData'
-import PublicFooter from './public/Footer'
-import PublicHeader from './public/Header'
+import Header from './public/Header'
+import Sidebar from './public/Sidebar'
 
-const PublicLayout = ({ children }: { children: ReactNode }) => {
+const ContainerLayout = styled(Box)(({ theme }) => ({
+  marginTop: 80,
+  '.innerContent': {
+    display: 'flex',
+    flexDirection: 'column',
+    width: 'calc(100% - 80px)',
+    minHeight: 'calc(100vh - 80px)',
+    [theme.breakpoints.down('lg')]: {
+      width: '100%'
+    },
+    [theme.breakpoints.down('md')]: {
+      paddingLeft: 0
+    }
+  }
+}))
+
+const PublicLayout = ({ children, maxWidth = 'xl', ...rest }: { children: ReactNode; maxWidth?: any }) => {
   const theme = useTheme()
-  const isSm = useMediaQuery(theme.breakpoints.down('md'))
+  const isLg = useMediaQuery(theme.breakpoints.down('xl'))
 
   const { updateData } = useStoreActions()
   const { updateCart } = useCartActions()
@@ -47,13 +63,19 @@ const PublicLayout = ({ children }: { children: ReactNode }) => {
   }, [])
 
   return (
-    <>
-      <PublicHeader />
-      <Box minHeight={'calc(100vh - 80px)'} my={10}>
-        {children}
-      </Box>
-      {/* <PublicFooter /> */}
-    </>
+    <ContainerLayout>
+      <Header />
+      <Stack direction={'row'}>
+        <Sidebar />
+        <Box className={'innerContent'}>
+          <Container maxWidth={maxWidth} sx={{ ml: isLg ? 'auto' : maxWidth ? 0 : 'auto' }} {...rest}>
+            <Box mb={10} pt={3}>
+              {children}
+            </Box>
+          </Container>
+        </Box>
+      </Stack>
+    </ContainerLayout>
   )
 }
 

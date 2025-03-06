@@ -21,7 +21,13 @@ import CustomInput from '../components/CustomInput'
 import InvoicingDetail from '../components/InvoicingDetail'
 import TypographyMoney from '../components/TypografyMoney'
 import PublicLayout from '../layouts/Public'
-import { useInvoiceActions, useInvoiceSelected, useViewsActions } from '../store/dashboard'
+import {
+  useActionsOpenLogin,
+  useActionsTypeForm,
+  useInvoiceActions,
+  useInvoiceSelected,
+  useViewsActions
+} from '../store/dashboard'
 import { useCartActions, useCartSelected, useUserSelected } from '../store/user'
 import { dialogItemTypes, UserDataTypes } from '../types/types'
 import { containerWidth, userFormInit } from '../utils/const'
@@ -51,15 +57,15 @@ const Checkout = () => {
   const [shippingInfo, setShippingInfo] = useState<UserDataTypes>(userFormInit)
   const [dialogItem, setDialogItem] = useState<dialogItemTypes>({ open: false, data: undefined })
   const { updateView } = useViewsActions()
+  const { updateLoginAnchor } = useActionsOpenLogin()
+  const { updateTypeForm } = useActionsTypeForm()
 
   useEffect(() => {
     let mount = true
     const fetchCountries = async () => {
       console.log(user)
-      if (mount) {
-        if (user) {
-          setShippingInfo(user)
-        }
+      if (mount && user) {
+        setShippingInfo(user)
       }
     }
 
@@ -67,7 +73,7 @@ const Checkout = () => {
     return () => {
       mount = false
     }
-  }, [])
+  }, [user])
 
   useEffect(() => {
     let mount = true
@@ -106,6 +112,12 @@ const Checkout = () => {
     console.log('Factura generada:', newInvoice)
   }
 
+  const openRegister = () => {
+    const anchor = document.getElementById('user_login')
+    updateLoginAnchor(anchor)
+    updateTypeForm(1)
+  }
+
   return (
     <PublicLayout>
       <Container maxWidth={containerWidth}>
@@ -113,7 +125,7 @@ const Checkout = () => {
           <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center', padding: '20vh 0 0' }}>
             <CircularProgress size={120} />
           </Box>
-        ) : (
+        ) : user.email ? (
           <>
             <Grid2 container spacing={2} pt={4}>
               <Grid2 size={{ xs: 12 }}>
@@ -226,6 +238,15 @@ const Checkout = () => {
               </Button>
             </Stack>
           </>
+        ) : (
+          <Box>
+            <Typography variant="body1" color="initial">
+              Para poder comprar debe registrarse o iniciar sesión
+            </Typography>
+            <Button variant="contained" color="primary" onClick={openRegister}>
+              Registro / Iniciar sesión
+            </Button>
+          </Box>
         )}
       </Container>
       <CustomDialog

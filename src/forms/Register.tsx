@@ -3,10 +3,11 @@ import { enqueueSnackbar } from 'notistack'
 import { useEffect, useState } from 'react'
 import CustomInput from '../components/CustomInput'
 import { CustomSelect } from '../components/CustomSelect'
-import { useUsersActions, useUsersSelected } from '../store/user'
+import { useUserActions, useUsersActions, useUsersSelected } from '../store/user'
 import { UserDataTypes } from '../types/types'
 import CountrySelect from '../components/CountrySelect'
 import { userFormInit } from '../utils/const'
+import { useActionsOpenLogin } from '../store/dashboard'
 
 const Register = ({ setTypeForm }: { setTypeForm: (type: number) => void }) => {
   const [form, setForm] = useState<UserDataTypes>(userFormInit)
@@ -14,6 +15,8 @@ const Register = ({ setTypeForm }: { setTypeForm: (type: number) => void }) => {
   const theme = useTheme()
   const users = useUsersSelected()
   const { updateUsers } = useUsersActions()
+  const { updateUser } = useUserActions()
+  const { updateLoginAnchor } = useActionsOpenLogin()
 
   useEffect(() => {
     let mount = true
@@ -42,7 +45,9 @@ const Register = ({ setTypeForm }: { setTypeForm: (type: number) => void }) => {
     } else {
       enqueueSnackbar(`Registrado exitosamente`, { variant: 'success' })
       updateUsers([...users, form])
+      updateUser(form)
       setTypeForm(0)
+      updateLoginAnchor(null)
     }
   }
 

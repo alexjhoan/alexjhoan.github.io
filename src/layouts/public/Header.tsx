@@ -34,7 +34,14 @@ import { useStoreActions, useStoreSelected } from '../../store/products'
 import { useCartActions, useCartSelected, useUserActions, useUserSelected } from '../../store/user'
 import { containerWidth } from '../../utils/const'
 import viteLogo from '/vite.svg'
-import { useViewsActions } from '../../store/dashboard'
+import {
+  useActionsOpenLogin,
+  useActionsTypeForm,
+  useOpenAnchor,
+  useOpenLogin,
+  useTypeForm,
+  useViewsActions
+} from '../../store/dashboard'
 import MenuIcon from '@mui/icons-material/Menu'
 
 const CustomDivider = styled(Divider)(({ theme }) => ({
@@ -70,12 +77,14 @@ const BoxCarContainer = styled(Box)(() => ({
 const Header = () => {
   const theme = useTheme()
   const isSm = useMediaQuery(theme.breakpoints.down('md'))
-  const [typeForm, setTypeForm] = useState(0)
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-  const open = Boolean(anchorEl)
   const cart = useCartSelected()
   const data = useStoreSelected()
   const user = useUserSelected()
+  const openLogin = useOpenLogin()
+  const openAnchor = useOpenAnchor()
+  const typeForm = useTypeForm()
+  const { updateLoginAnchor } = useActionsOpenLogin()
+  const { updateTypeForm } = useActionsTypeForm()
   const { updateData } = useStoreActions()
   const { updateCart } = useCartActions()
   const navigate = useNavigate()
@@ -87,16 +96,15 @@ const Header = () => {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (user.email) {
       enqueueSnackbar(`Bienvenido ${user.first_name} ${user.last_name}`, { variant: 'success' })
-      navigate('/dashboard')
     } else {
-      setAnchorEl(event.currentTarget)
+      updateLoginAnchor(event.currentTarget)
     }
   }
 
   const handleClose = () => {
-    setAnchorEl(null)
+    updateLoginAnchor(null)
     setTimeout(() => {
-      setTypeForm(0)
+      updateTypeForm(0)
     }, 300)
   }
 
@@ -266,8 +274,9 @@ const Header = () => {
                 </Tooltip>
               </Box>
             ) : (
-              <Tooltip title="Iniciar sesión">
+              <Tooltip title="Iniciar sesión / Registro">
                 <IconButton
+                  id="user_login"
                   sx={{ mr: 1 }}
                   className="iconUser"
                   size="large"
@@ -298,7 +307,7 @@ const Header = () => {
       </Container>
       <Menu
         id="basic-menu"
-        anchorEl={anchorEl}
+        anchorEl={openAnchor}
         anchorOrigin={{
           vertical: 'bottom',
           horizontal: 'right'
@@ -307,14 +316,14 @@ const Header = () => {
           vertical: 'top',
           horizontal: 'right'
         }}
-        open={open}
+        open={openLogin}
         onClose={handleClose}
       >
         <Box sx={{ padding: theme.spacing(isSm ? 1 : 2, 2.5), maxWidth: '400px' }}>
           {typeForm === 0 ? (
-            <Login setTypeForm={setTypeForm} setAnchorEl={setAnchorEl} />
+            <Login setTypeForm={updateTypeForm} setAnchorEl={updateLoginAnchor} />
           ) : (
-            <Register setTypeForm={setTypeForm} />
+            <Register setTypeForm={updateTypeForm} />
           )}
         </Box>
       </Menu>
