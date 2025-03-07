@@ -4,11 +4,18 @@ import { useCategoriesSelected, useCategorySelected, useStoreActions, useStoreSe
 
 const ContainerSidebar = styled(Box)(({ theme }) => ({
   padding: theme.spacing(2),
+  position: 'relative',
   width: 300,
   minHeight: 'calc(100vh - 80px)',
   boxShadow: '3px 0px 10px #0008',
   '.item-active span': {
     fontWeight: 700
+  },
+  '.stiky-bar': {
+    position: 'fixed',
+    top: 90,
+    left: 15,
+    width: 270
   },
   [theme.breakpoints.down('lg')]: {
     display: 'none'
@@ -34,18 +41,20 @@ const Sidebar = () => {
 
   return (
     <ContainerSidebar>
-      <Typography variant="h6">Categorías</Typography>
-      <Divider sx={{ mt: 1 }} />
-      <MenuList sx={{ pb: 0 }}>
-        <MenuItem className={category === 'Todo' ? 'item-active' : ''} onClick={() => updateCategory('Todo')}>
-          <ListItemText>Todo</ListItemText>
-        </MenuItem>
-        {categories.map((item: string, i: number) => (
-          <MenuItem className={category === item ? 'item-active' : ''} key={i} onClick={() => updateCategory(item)}>
-            <ListItemText>{item}</ListItemText>
+      <Box className={'stiky-bar'}>
+        <Typography variant="h6">Categorías</Typography>
+        <Divider sx={{ mt: 1 }} />
+        <MenuList sx={{ pb: 0 }}>
+          <MenuItem className={category === 'Todo' ? 'item-active' : ''} onClick={() => updateCategory('Todo')}>
+            <ListItemText>Todo</ListItemText>
           </MenuItem>
-        ))}
-      </MenuList>
+          {categories.map((item: string, i: number) => (
+            <MenuItem className={category === item ? 'item-active' : ''} key={i} onClick={() => updateCategory(item)}>
+              <ListItemText>{item}</ListItemText>
+            </MenuItem>
+          ))}
+        </MenuList>
+      </Box>
     </ContainerSidebar>
   )
 }
