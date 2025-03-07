@@ -15,7 +15,7 @@ import {
   useMediaQuery,
   useTheme
 } from '@mui/material'
-import { useNavigate } from 'react-router'
+import { redirect } from 'react-router'
 import TypographyMoney from '../components/TypografyMoney'
 import PublicLayout from '../layouts/Public'
 import { useStoreActions, useStoreSelected } from '../store/products'
@@ -55,7 +55,6 @@ const BoxItem = styled(Box)(({ theme }) => ({
 const Cart = () => {
   const theme = useTheme()
   const isXs = useMediaQuery(theme.breakpoints.down('sm'))
-  const navigate = useNavigate()
   const data = useStoreSelected()
   const cart = useCartSelected()
   const { updateData } = useStoreActions()
@@ -298,7 +297,7 @@ const Cart = () => {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={() => navigate('/checkout')}
+                onClick={() => redirect('/checkout')}
                 endIcon={<ShoppingCartCheckout />}
               >
                 Finalizar compra
@@ -307,7 +306,7 @@ const Cart = () => {
           </Grid2>
         </Grid2>
         <Stack direction={'row'} mt={4}>
-          <Button variant="outlined" color="primary" onClick={() => navigate('/')} startIcon={<Reply />}>
+          <Button variant="outlined" color="primary" onClick={() => redirect('/')} startIcon={<Reply />}>
             Seguir Comprando
           </Button>
         </Stack>

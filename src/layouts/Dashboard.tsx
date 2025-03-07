@@ -60,7 +60,7 @@ const DashboardLayout = ({
   //   if (moutn) {
   //     if (user.email === '') {
   //       enqueueSnackbar(`Por favor iniciar sesión`, { variant: 'error' })
-  //       navigate('/')
+  //       redirect('/')
   //     } else {
   //       const storedInvoices = localStorage.getItem('invoices')
   //       if (storedInvoices) {

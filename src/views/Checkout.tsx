@@ -14,7 +14,7 @@ import {
   useTheme
 } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router'
+import { redirect } from 'react-router'
 import CountrySelect from '../components/CountrySelect'
 import CustomDialog from '../components/CustomDialog'
 import CustomInput from '../components/CustomInput'
@@ -48,7 +48,7 @@ const Checkout = () => {
   const [disabled, setDisabled] = useState(true)
   const theme = useTheme()
   const isXs = useMediaQuery(theme.breakpoints.down('sm'))
-  const navigate = useNavigate()
+
   const cart = useCartSelected()
   const user = useUserSelected()
   const invoices = useInvoiceSelected()
@@ -260,13 +260,13 @@ const Checkout = () => {
               </Grid2>
             </Grid2>
             <Stack direction={isXs ? 'column-reverse' : 'row'} mt={4} gap={3}>
-              <Button variant="outlined" color="primary" onClick={() => navigate('/')} startIcon={<Reply />}>
+              <Button variant="outlined" color="primary" onClick={() => redirect('/')} startIcon={<Reply />}>
                 Seguir Comprando
               </Button>
               <Button
                 variant="outlined"
                 color="primary"
-                onClick={() => navigate('/cart')}
+                onClick={() => redirect('/cart')}
                 startIcon={<ProductionQuantityLimits />}
               >
                 Volver al carrito
@@ -290,7 +290,7 @@ const Checkout = () => {
         onClose={() => {
           setDialogItem({ open: false, data: undefined })
           updateView('Facturacion')
-          navigate('/dashboard')
+          redirect('/dashboard')
         }}
       >
         <InvoicingDetail data={dialogItem.data} />

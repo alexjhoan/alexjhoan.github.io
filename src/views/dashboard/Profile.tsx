@@ -8,7 +8,7 @@ import { useUserActions, useUsersActions, useUserSelected, useUsersSelected } fr
 import { UserDataTypes } from '../../types/types'
 import { containerWidth, userFormInit } from '../../utils/const'
 
-const Users = () => {
+const Profile = () => {
   const users = useUsersSelected()
   const user = useUserSelected()
   const { updateUsers } = useUsersActions()
@@ -193,4 +193,4 @@ const Users = () => {
   )
 }
 
-export default Users
+export default Profile

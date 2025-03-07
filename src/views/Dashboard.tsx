@@ -2,7 +2,7 @@ import { Box } from '@mui/material'
 import DashboardLayout from '../layouts/Dashboard'
 import { useViewSelected } from '../store/dashboard'
 import Invoicing from './dashboard/Invoicing'
-import Perfil from './dashboard/Perfil'
+import Perfil from './dashboard/Profile'
 import Products from './dashboard/Products'
 import Users from './dashboard/Users'
 

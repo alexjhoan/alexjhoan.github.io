@@ -1,11 +1,10 @@
 import { Box, useMediaQuery, useTheme, styled, Container, Stack } from '@mui/material'
-import { ReactNode, useEffect } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import { useStoreActions } from '../store/products'
 import { useCartActions, useUserActions, useUsersActions } from '../store/user'
 import { mockData } from '../utils/mockData'
 import Header from './public/Header'
 import Sidebar from './public/Sidebar'
-import { useLocation } from 'react-router'
 
 /**
  * Description placeholder
@@ -39,7 +38,7 @@ const ContainerLayout = styled(Box)(({ theme }) => ({
 const PublicLayout = ({ children, maxWidth = 'xl', ...rest }: { children: ReactNode; maxWidth?: any }) => {
   const theme = useTheme()
   const isLg = useMediaQuery(theme.breakpoints.down('xl'))
-  const location = useLocation()
+  const [location, setLocation] = useState('/')
 
   const { updateData } = useStoreActions()
   const { updateCart } = useCartActions()
@@ -49,6 +48,7 @@ const PublicLayout = ({ children, maxWidth = 'xl', ...rest }: { children: ReactN
   useEffect(() => {
     // se encarga de tomar todos los datos del localStorage y los monta en el estado de react
     let mount = true
+    setLocation(window.location.pathname)
     if (mount) {
       const storedData = localStorage.getItem('products')
       const storedCart = localStorage.getItem('cart')
@@ -79,12 +79,12 @@ const PublicLayout = ({ children, maxWidth = 'xl', ...rest }: { children: ReactN
     <ContainerLayout>
       <Header />
       <Stack direction={'row'}>
-        {location.pathname === '/' && <Sidebar />}
-        <Box className={'innerContent'} sx={{ width: location.pathname === '/' ? 'calc(100% - 300px)' : '100%' }}>
+        {location === '/' && <Sidebar />}
+        <Box className={'innerContent'} sx={{ width: location === '/' ? 'calc(100% - 300px)' : '100%' }}>
           <Container
             maxWidth={maxWidth}
             sx={{
-              ml: location.pathname !== '/' ? 'auto' : isLg ? 'auto' : maxWidth ? 0 : 'auto'
+              ml: location !== '/' ? 'auto' : isLg ? 'auto' : maxWidth ? 0 : 'auto'
             }}
             {...rest}
           >

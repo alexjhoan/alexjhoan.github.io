@@ -1,7 +1,7 @@
 import { Box, Button, Stack, Typography, useTheme } from '@mui/material'
 import { enqueueSnackbar } from 'notistack'
 import { useState } from 'react'
-import { useNavigate } from 'react-router'
+import { redirect } from 'react-router'
 import CustomInput, { isValidEmail } from '../components/CustomInput'
 import { useUserActions, useUsersSelected } from '../store/user'
 import { useViewsActions } from '../store/dashboard'
@@ -38,7 +38,6 @@ const Login = ({
   const theme = useTheme()
   const users = useUsersSelected()
   const { updateUser } = useUserActions()
-  const navigate = useNavigate()
   const { updateView } = useViewsActions()
 
   /**
@@ -78,7 +77,7 @@ const Login = ({
         // Si el usuario es administrador, lo redirige al panel de administración
         if (getUser.role === 'Administrador') {
           updateView('') // Actualiza la vista (función personalizada)
-          navigate('/dashboard') // Navega a la ruta del panel de control
+          redirect('/dashboard') // Navega a la ruta del panel de control
         }
 
         // Cierra un menú (si está abierto) y actualiza el estado del usuario actual

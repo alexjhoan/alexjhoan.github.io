@@ -27,10 +27,11 @@ import {
 import Badge, { badgeClasses } from '@mui/material/Badge'
 import { enqueueSnackbar } from 'notistack'
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router'
+import { Link } from 'react-router'
 import TypographyMoney from '../../components/TypografyMoney'
 import Login from '../../forms/Login'
 import Register from '../../forms/Register'
+import { redirect } from 'react-router'
 import {
   useActionsOpenLogin,
   useActionsTypeForm,
@@ -42,7 +43,6 @@ import {
 import { useStoreActions, useStoreSelected } from '../../store/products'
 import { useCartActions, useCartSelected, useUserActions, useUserSelected } from '../../store/user'
 import { containerWidth } from '../../utils/const'
-import viteLogo from '/vite.svg'
 
 const CustomDivider = styled(Divider)(({ theme }) => ({
   [`&.${dividerClasses.fullWidth}`]: {
@@ -87,7 +87,7 @@ const Header = () => {
   const { updateTypeForm } = useActionsTypeForm()
   const { updateData } = useStoreActions()
   const { updateCart } = useCartActions()
-  const navigate = useNavigate()
+
   const { removeUser } = useUserActions()
   const { updateView } = useViewsActions()
   const [openCart, setOpenCart] = useState(false)
@@ -129,7 +129,7 @@ const Header = () => {
     enqueueSnackbar(`Sesión Finalizada`, { variant: 'success' })
     removeUser()
     clearCart()
-    navigate('/')
+    redirect('/')
   }
 
   /**
@@ -221,7 +221,7 @@ const Header = () => {
               to={'/'}
               style={{ display: 'flex', lineHeight: 0, alignItems: 'center', width: 'fit-content', textDecoration: 'none' }}
             >
-              <img src={viteLogo} className="logo" alt="Vite logo" />
+              <img src="/vite.svg" className="logo" alt="Vite logo" />
               <Typography variant="body1" color="white" ml={2} fontWeight={700}>
                 Vite Store
               </Typography>
@@ -234,18 +234,18 @@ const Header = () => {
                 sx={{ color: theme.palette.common.white, fontWeight: 700 }}
                 onClick={() => {
                   updateView('')
-                  navigate('/dashboard')
+                  redirect('/dashboard')
                 }}
               >
                 Dashboard
               </Button>
-              <Button variant="text" sx={{ color: theme.palette.common.white, fontWeight: 700 }} onClick={() => navigate('/')}>
+              <Button variant="text" sx={{ color: theme.palette.common.white, fontWeight: 700 }} onClick={() => redirect('/')}>
                 Inicio
               </Button>
               <Button
                 variant="text"
                 sx={{ color: theme.palette.common.white, fontWeight: 700 }}
-                onClick={() => navigate('/cart')}
+                onClick={() => redirect('/cart')}
               >
                 Mi pedido
               </Button>
@@ -344,7 +344,7 @@ const Header = () => {
               <MenuItem
                 onClick={() => {
                   updateView('Inventario')
-                  navigate('/dashboard')
+                  redirect('/dashboard')
                   setOpenMenuMobile(false)
                 }}
               >
@@ -354,13 +354,13 @@ const Header = () => {
                 <ListItemText>Dashboard</ListItemText>
               </MenuItem>
             )}
-            <MenuItem onClick={() => navigate('/')}>
+            <MenuItem onClick={() => redirect('/')}>
               <ListItemIcon>
                 <Home />
               </ListItemIcon>
               <ListItemText>Inicio</ListItemText>
             </MenuItem>
-            <MenuItem onClick={() => navigate('/cart')}>
+            <MenuItem onClick={() => redirect('/cart')}>
               <ListItemIcon>
                 <ShoppingCart />
               </ListItemIcon>
@@ -369,7 +369,7 @@ const Header = () => {
             <MenuItem
               onClick={() => {
                 updateView('Facturacion')
-                navigate('/dashboard')
+                redirect('/dashboard')
                 setOpenMenuMobile(false)
               }}
             >
@@ -381,7 +381,7 @@ const Header = () => {
             <MenuItem
               onClick={() => {
                 updateView('Perfil')
-                navigate('/dashboard')
+                redirect('/dashboard')
                 setOpenMenuMobile(false)
               }}
             >
@@ -480,7 +480,7 @@ const Header = () => {
             </Typography>
             <TypographyMoney value={cart.reduce((acc, item) => acc + item.price * (item.quantity || 0), 0)} variant="h5" />
           </Stack>
-          <Button variant="contained" color="primary" fullWidth onClick={() => navigate(`/cart`)}>
+          <Button variant="contained" color="primary" fullWidth onClick={() => redirect('/cart')}>
             Finalizar compra
           </Button>
         </Box>
