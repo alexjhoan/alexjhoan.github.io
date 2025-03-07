@@ -41,24 +41,41 @@ const Invoicing = () => {
   const [dialogItem, setDialogItem] = useState<dialogItemTypes>({ open: false, data: undefined })
   const [tableData, setTableData] = useState<invoicesTypes[]>([])
 
+  /**
+   * Efecto secundario que establece los datos de la tabla
+   * según el rol del usuario (Administrador o no).
+   */
   useEffect(() => {
-    let mount = true
+    let mount = true // Controla si el componente está montado
+
     if (mount) {
+      // Si el usuario es Administrador, muestra todos los datos
       if (user.role === 'Administrador') {
         setTableData(data)
       } else {
+        // Filtra los datos para mostrar solo aquellos relacionados al usuario actual
         const filterData = data.filter((item) => item.shippingInfo.email === user.email)
         setTableData(filterData)
       }
     }
+
     return () => {
+      // Limpieza al desmontar el componente
       mount = false
     }
-  }, [data])
+  }, [data]) // Dependencia: ejecuta el efecto cuando 'data' cambie
 
+  /**
+   * Ordena los datos de la tabla según una columna específica y en un orden determinado.
+   * @param allData - Todos los datos que se desean ordenar.
+   * @param keyCol - La clave de la columna por la cual ordenar los datos.
+   * @param order - Indica si el orden es ascendente (true) o descendente (false).
+   */
   const sortTable = async (allData: any, keyCol: string, order: boolean) => {
-    setTableData([])
-    setBtnSort(keyCol)
+    setTableData([]) // Limpia temporalmente los datos de la tabla
+    setBtnSort(keyCol) // Establece la columna actual de ordenamiento
+
+    // Ordena los datos de forma ascendente o descendente según el valor de 'order'
     const sortedData = await allData.sort((a: any, b: any) => {
       if (b[keyCol] < a[keyCol]) {
         return order ? 1 : -1
@@ -66,16 +83,22 @@ const Invoicing = () => {
       if (b[keyCol] > a[keyCol]) {
         return order ? -1 : 1
       }
-      return 0
+      return 0 // Si los valores son iguales, no cambia el orden
     })
-    setSortAsc(order)
-    setTableData(sortedData)
+
+    setSortAsc(order) // Actualiza el estado indicando el orden (ascendente/descendente)
+    setTableData(sortedData) // Establece los datos ordenados en la tabla
   }
 
+  /**
+   * Muestra los detalles de un elemento de la tabla en un cuadro de diálogo.
+   * @param item - Los datos del elemento seleccionado.
+   */
   const showItem = (item: invoicesTypes) => {
-    console.log(item)
+    // Abre el cuadro de diálogo con los datos del elemento
     setDialogItem({ open: true, data: item })
   }
+
   return (
     <Container maxWidth={containerWidth}>
       <Typography variant="h6" color="initial">

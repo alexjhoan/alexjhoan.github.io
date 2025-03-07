@@ -26,34 +26,59 @@ const Register = ({ setTypeForm }: { setTypeForm: (type: number) => void }) => {
   const { updateLoginAnchor } = useActionsOpenLogin()
 
   useEffect(() => {
-    let mount = true
+    let mount = true // Variable para controlar el montaje del componente
+
     if (mount) {
+      // Verifica si algún valor del formulario está vacío
       const btnDisabled = Object.values(form).some((item: any) => item === '')
-      setDisabled(btnDisabled)
+      setDisabled(btnDisabled) // Deshabilita o habilita el botón en consecuencia
     }
+
     return () => {
+      // Limpia la variable cuando se desmonta el componente
       mount = false
     }
-  }, [form])
+  }, [form]) // Dependencias: ejecuta este efecto cuando 'form' cambie
 
+  /**
+   * Maneja los cambios en los campos del formulario.
+   * @param event - Evento que contiene el nuevo valor del campo del formulario.
+   */
   const handleChange = (event: any) => {
-    let { name, value } = event.target
+    let { name, value } = event.target // Extrae el nombre y el valor del campo que cambió
     setForm({
-      ...form,
-      [name]: value
+      ...form, // Mantiene los valores actuales del formulario
+      [name]: value // Actualiza el campo específico con su nuevo valor
     })
   }
 
+  /**
+   * Maneja el registro de un nuevo usuario.
+   * @param event - El evento que se activa al enviar el formulario de registro.
+   */
   const handleRegister = (event: any) => {
-    event.preventDefault()
+    event.preventDefault() // Previene el comportamiento predeterminado del formulario
+
+    // Verifica si ya existe un usuario con el correo ingresado
     const oldUser = users.find((item) => item.email === form.email)
+
     if (oldUser) {
+      // Muestra una advertencia si el correo ya está registrado
       enqueueSnackbar(`Este correo ya se encuentra registrado`, { variant: 'warning' })
     } else {
+      // Muestra un mensaje de éxito si el registro es exitoso
       enqueueSnackbar(`Registrado exitosamente`, { variant: 'success' })
+
+      // Actualiza la lista de usuarios con el nuevo usuario
       updateUsers([...users, form])
+
+      // Establece el nuevo usuario como el usuario actual
       updateUser(form)
+
+      // Resetea el formulario o cambia el tipo de formulario
       setTypeForm(0)
+
+      // Cierra el menú de inicio de sesión (si está abierto)
       updateLoginAnchor(null)
     }
   }

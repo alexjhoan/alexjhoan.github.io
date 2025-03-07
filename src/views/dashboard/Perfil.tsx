@@ -28,21 +28,29 @@ const Users = () => {
   }, [user])
 
   useEffect(() => {
-    let mount = true
+    let mount = true // Variable para controlar el montaje del componente
+
     if (mount) {
+      // Verifica si algún valor del formulario está vacío
       const btnDisabled = Object.values(form).some((item: any) => item === '')
-      setDisabled(btnDisabled)
+      setDisabled(btnDisabled) // Deshabilita o habilita el botón en consecuencia
     }
+
     return () => {
+      // Limpia la variable cuando se desmonta el componente
       mount = false
     }
-  }, [form])
+  }, [form]) // Dependencias: ejecuta este efecto cuando 'form' cambie
 
+  /**
+   * Maneja los cambios en los campos del formulario.
+   * @param event - Evento que contiene el nuevo valor del campo del formulario.
+   */
   const handleChange = (event: any) => {
-    let { name, value } = event.target
+    let { name, value } = event.target // Extrae el nombre y el valor del campo que cambió
     setForm({
-      ...form,
-      [name]: value
+      ...form, // Mantiene los valores actuales del formulario
+      [name]: value // Actualiza el campo específico con su nuevo valor
     })
   }
 

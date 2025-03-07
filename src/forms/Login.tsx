@@ -41,27 +41,55 @@ const Login = ({
   const navigate = useNavigate()
   const { updateView } = useViewsActions()
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value })
+  /**
+   * Maneja los cambios en los campos del formulario.
+   * @param event - Evento que contiene el nuevo valor del campo del formulario.
+   */
+  const handleChange = (event: any) => {
+    let { name, value } = event.target // Extrae el nombre y el valor del campo que cambió
+    setForm({
+      ...form, // Mantiene los valores actuales del formulario
+      [name]: value // Actualiza el campo específico con su nuevo valor
+    })
   }
 
+  /**
+   * Maneja el evento de inicio de sesión del usuario.
+   * @param event - El evento que se activa al enviar el formulario.
+   */
+
   const handleLogin = (event: any) => {
+    // Previene el comportamiento predeterminado del formulario (ejemplo: recargar la página)
     event.preventDefault()
+
+    // Muestra el estado actual de "users" en la consola para depuración
     console.log(users)
+
+    // Busca un usuario cuyo correo coincida con el del formulario
     const getUser = users.find((item) => item.email === form.email)
+
+    // Verifica si se encontró un usuario con ese correo
     if (getUser?.email === form.email) {
+      // Comprueba si la contraseña ingresada coincide con la del usuario
       if (getUser?.password === form.password) {
+        // Muestra un mensaje de bienvenida con el nombre del usuario
         enqueueSnackbar(`Bienvenido ${getUser.first_name} ${getUser.last_name}`, { variant: 'success' })
+
+        // Si el usuario es administrador, lo redirige al panel de administración
         if (getUser.role === 'Administrador') {
-          updateView('')
-          navigate('/dashboard')
+          updateView('') // Actualiza la vista (función personalizada)
+          navigate('/dashboard') // Navega a la ruta del panel de control
         }
+
+        // Cierra un menú (si está abierto) y actualiza el estado del usuario actual
         setAnchorEl(null)
         updateUser(getUser)
       } else {
+        // Muestra un mensaje de error si la contraseña es incorrecta
         enqueueSnackbar(`Contraseña invalida`, { variant: 'error' })
       }
     } else {
+      // Muestra un mensaje de error si el correo no está registrado
       enqueueSnackbar(`Correo no registrado`, { variant: 'error' })
     }
   }

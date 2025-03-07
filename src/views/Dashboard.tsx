@@ -9,6 +9,8 @@ import Users from './dashboard/Users'
 const Dashboard = () => {
   const view = useViewSelected()
 
+  // objeto encarga de seleccionar el componente a mostrar
+
   const components: any = {
     Inventario: <Products />,
     Usuarios: <Users />,

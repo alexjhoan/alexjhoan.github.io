@@ -60,62 +60,97 @@ const Checkout = () => {
   const { updateLoginAnchor } = useActionsOpenLogin()
   const { updateTypeForm } = useActionsTypeForm()
 
+  /**
+   * Efecto secundario que establece la información de envío del usuario actual.
+   * Se ejecuta cada vez que cambie el usuario.
+   */
   useEffect(() => {
-    let mount = true
+    let mount = true // Variable para controlar si el componente está montado
+
+    /**
+     * Función asíncrona para configurar la información de envío
+     * según el usuario actual.
+     */
     const fetchCountries = async () => {
-      console.log(user)
+      console.log(user) // Muestra la información del usuario en la consola para depuración
+
       if (mount && user) {
-        setShippingInfo(user)
+        setShippingInfo(user) // Establece la información de envío basada en el usuario
       }
     }
 
-    fetchCountries()
+    fetchCountries() // Llama a la función para obtener la información
+
     return () => {
-      mount = false
+      mount = false // Limpia la variable al desmontar el componente
     }
   }, [user])
 
   useEffect(() => {
-    let mount = true
+    let mount = true // Variable para controlar el montaje del componente
+
     if (mount) {
+      // Verifica si algún valor del formulario está vacío
       const btnDisabled = Object.values(shippingInfo).some((item: any) => item === '')
-      setDisabled(btnDisabled)
+      setDisabled(btnDisabled) // Deshabilita o habilita el botón en consecuencia
     }
+
     return () => {
+      // Limpia la variable cuando se desmonta el componente
       mount = false
     }
-  }, [shippingInfo])
+  }, [shippingInfo]) // Dependencias: ejecuta este efecto cuando 'form' cambie
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setShippingInfo({ ...shippingInfo, [name]: value })
+  /**
+   * Maneja los cambios en los campos del formulario.
+   * @param event - Evento que contiene el nuevo valor del campo del formulario.
+   */
+  const handleChange = (event: any) => {
+    let { name, value } = event.target // Extrae el nombre y el valor del campo que cambió
+    setShippingInfo({
+      ...shippingInfo, // Mantiene los valores actuales del formulario
+      [name]: value // Actualiza el campo específico con su nuevo valor
+    })
   }
 
+  /**
+   * Maneja el proceso de finalizar la compra.
+   * Genera una nueva factura, actualiza el estado del carrito y muestra un cuadro de diálogo con la factura generada.
+   */
   const handleCheckout = () => {
-    setLoading(true)
+    setLoading(true) // Activa el estado de carga mientras se procesa la factura
+
+    // Crea una nueva factura con los detalles del carrito y la información de envío
     const newInvoice = {
-      id: Date.now(),
-      date: new Date().toLocaleDateString(),
-      items: cart,
-      subtotal: cart.reduce((acc, item) => acc + item.price * (item.quantity || 0), 0),
-      tax: cart.reduce((acc, item) => acc + item.price * (item.quantity || 0) * item.tax, 0),
-      total: cart.reduce((acc, item) => acc + item.price * (item.quantity || 0) * (1 + item.tax), 0),
-      shippingInfo
+      id: Date.now(), // Genera un identificador único basado en la hora actual
+      date: new Date().toLocaleDateString(), // Establece la fecha actual en formato local
+      items: cart, // Productos en el carrito
+      subtotal: cart.reduce((acc, item) => acc + item.price * (item.quantity || 0), 0), // Calcula el subtotal
+      tax: cart.reduce((acc, item) => acc + item.price * (item.quantity || 0) * item.tax, 0), // Calcula los impuestos
+      total: cart.reduce((acc, item) => acc + item.price * (item.quantity || 0) * (1 + item.tax), 0), // Calcula el total con impuestos
+      shippingInfo // Información de envío del usuario
     }
-    updateInvoice([...invoices, newInvoice])
-    updateCart([])
+
+    updateInvoice([...invoices, newInvoice]) // Añade la nueva factura a la lista de facturas
+    updateCart([]) // Vacía el carrito de compras
+
+    // Simula un retraso antes de desactivar la carga y mostrar el cuadro de diálogo
     setTimeout(() => {
-      setLoading(false)
-      setDialogItem({ open: true, data: newInvoice })
+      setLoading(false) // Desactiva el estado de carga
+      setDialogItem({ open: true, data: newInvoice }) // Muestra el cuadro de diálogo con la nueva factura
     }, 1000)
 
-    console.log('Factura generada:', newInvoice)
+    console.log('Factura generada:', newInvoice) // Muestra la factura generada en la consola para depuración
   }
 
+  /**
+   * Abre el formulario de registro de usuario.
+   * Actualiza el estado para mostrar el formulario de tipo "registro" y ancla el formulario al elemento del DOM.
+   */
   const openRegister = () => {
-    const anchor = document.getElementById('user_login')
-    updateLoginAnchor(anchor)
-    updateTypeForm(1)
+    const anchor = document.getElementById('user_login') // Obtiene el elemento HTML con el ID "user_login"
+    updateLoginAnchor(anchor) // Establece el ancla para la posición del formulario de inicio de sesión/registro
+    updateTypeForm(1) // Cambia el tipo de formulario a "registro"
   }
 
   return (

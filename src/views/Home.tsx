@@ -80,43 +80,59 @@ const Home = () => {
   const { updateCategory } = useStoreActions()
   const { inputSearch, getAllDataSearch, searchedData, InputSearcher } = useSearcher()
 
+  /**
+   * useEffect que actualiza la tabla de datos y la búsqueda
+   * según la categoría seleccionada.
+   * Se ejecuta cada vez que cambien los datos o la categoría.
+   */
   useEffect(() => {
-    let mount = true
+    let mount = true // Variable para asegurar que el componente está montado
+
     if (mount) {
       if (category === 'Todo') {
-        getAllDataSearch(data)
-        setDataTable(data)
+        // Si la categoría es 'Todo', utiliza todos los datos disponibles
+        getAllDataSearch(data) // Actualiza los datos de búsqueda con todos los datos
+        setDataTable(data) // Establece todos los datos en la tabla
       } else {
+        // Filtra los datos según la categoría seleccionada
         const newData = data.filter((item) => item.category === category)
-        getAllDataSearch(newData)
-        setDataTable(newData)
+        getAllDataSearch(newData) // Actualiza los datos de búsqueda con los datos filtrados
+        setDataTable(newData) // Establece los datos filtrados en la tabla
       }
     }
-    return () => {
-      mount = false
-    }
-  }, [data, category])
 
+    return () => {
+      mount = false // Limpieza al desmontar el componente
+    }
+  }, [data, category]) // Dependencias: ejecuta el efecto cuando cambien 'data' o 'category'
+
+  /**
+   * Agrega un producto al carrito de compras.
+   * @param idx - El identificador único del producto que se desea agregar.
+   */
   const handleAddToCart = (idx: number) => {
+    // Crea una copia del carrito actual
     const updatedCart = [...cart]
     const productIndex = updatedCart.findIndex((item) => item.id === idx)
 
+    // Verifica si el producto ya está en el carrito
     if (updatedCart[productIndex]?.quantity !== undefined && productIndex !== -1) {
+      // Incrementa la cantidad si ya existe
       updatedCart[productIndex].quantity += 1
     } else {
+      // Busca el producto en los datos generales
       const product = data.find((item) => item.id === idx)
       if (product) {
-        product.quantity = 1
-        updatedCart.push(product)
+        product.quantity = 1 // Asigna cantidad inicial de 1
+        updatedCart.push(product) // Agrega el producto al carrito
       }
     }
 
-    updateCart(updatedCart)
+    updateCart(updatedCart) // Actualiza el estado del carrito
 
+    // Reduce el stock del producto en los datos generales
     const updatedProducts = data.map((p) => (p.id === idx ? { ...p, stock: p.stock - 1 } : p))
-    updateData(updatedProducts)
-
-    enqueueSnackbar(`Agregado al carrito`, { variant: 'success' })
+    updateData(updatedProducts) // Actualiza los datos de los productos
   }
 
   return (

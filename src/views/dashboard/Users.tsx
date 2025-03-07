@@ -63,27 +63,43 @@ const Users = () => {
   }, [users])
 
   useEffect(() => {
-    let mount = true
+    let mount = true // Variable para controlar el montaje del componente
+
     if (mount) {
+      // Verifica si algún valor del formulario está vacío
       const btnDisabled = Object.values(form).some((item: any) => item === '')
-      setDisabled(btnDisabled)
+      setDisabled(btnDisabled) // Deshabilita o habilita el botón en consecuencia
     }
+
     return () => {
+      // Limpia la variable cuando se desmonta el componente
       mount = false
     }
-  }, [form])
+  }, [form]) // Dependencias: ejecuta este efecto cuando 'form' cambie
 
+  /**
+   * Maneja los cambios en los campos del formulario.
+   * @param event - Evento que contiene el nuevo valor del campo del formulario.
+   */
   const handleChange = (event: any) => {
-    let { name, value } = event.target
+    let { name, value } = event.target // Extrae el nombre y el valor del campo que cambió
     setForm({
-      ...form,
-      [name]: value
+      ...form, // Mantiene los valores actuales del formulario
+      [name]: value // Actualiza el campo específico con su nuevo valor
     })
   }
 
+  /**
+   * Ordena los datos de la tabla según una columna específica y en un orden determinado.
+   * @param allData - Todos los datos que se desean ordenar.
+   * @param keyCol - La clave de la columna por la cual ordenar los datos.
+   * @param order - Indica si el orden es ascendente (true) o descendente (false).
+   */
   const sortTable = async (allData: any, keyCol: string, order: boolean) => {
-    setTableData([])
-    setBtnSort(keyCol)
+    setTableData([]) // Limpia temporalmente los datos de la tabla
+    setBtnSort(keyCol) // Establece la columna actual de ordenamiento
+
+    // Ordena los datos de forma ascendente o descendente según el valor de 'order'
     const sortedData = await allData.sort((a: any, b: any) => {
       if (b[keyCol] < a[keyCol]) {
         return order ? 1 : -1
@@ -91,15 +107,20 @@ const Users = () => {
       if (b[keyCol] > a[keyCol]) {
         return order ? -1 : 1
       }
-      return 0
+      return 0 // Si los valores son iguales, no cambia el orden
     })
-    setSortAsc(order)
-    setTableData(sortedData)
+
+    setSortAsc(order) // Actualiza el estado indicando el orden (ascendente/descendente)
+    setTableData(sortedData) // Establece los datos ordenados en la tabla
   }
 
+  /**
+   * Muestra los detalles de un elemento de la tabla en un cuadro de diálogo.
+   * @param item - Los datos del elemento seleccionado.
+   */
   const showItem = (item: UserDataTypes) => {
-    console.log(item)
-    setDialogUser({ open: true, newUser: false, data: item })
+    // Abre el cuadro de diálogo con los datos del elemento
+    setDialogUser({ open: true, data: item })
     setForm(item)
   }
 

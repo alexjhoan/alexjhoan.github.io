@@ -47,6 +47,7 @@ const PublicLayout = ({ children, maxWidth = 'xl', ...rest }: { children: ReactN
   const { updateUser } = useUserActions()
 
   useEffect(() => {
+    // se encarga de tomar todos los datos del localStorage y los monta en el estado de react
     let mount = true
     if (mount) {
       const storedData = localStorage.getItem('products')

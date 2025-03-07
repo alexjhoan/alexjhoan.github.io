@@ -132,61 +132,84 @@ const Header = () => {
     navigate('/')
   }
 
+  /**
+   * Elimina un producto del carrito de compras.
+   * @param idx - El identificador único del producto que se desea eliminar.
+   */
   const removeItemCart = (idx: number) => {
-    console.log(idx)
+    console.log(idx) // Muestra en la consola el ID del producto a eliminar
+
+    // Crea una copia del carrito actual
     const updatedCart = [...cart]
+
+    // Encuentra el producto que corresponde al ID proporcionado
     const productCart = cart.find((item) => item.id === idx)
 
+    // Actualiza el stock del producto eliminado
     const updatedProducts = data.map((p) =>
       p.id === idx && productCart?.quantity ? { ...p, stock: p.stock + productCart.quantity } : p
     )
+    updateData(updatedProducts) // Actualiza los datos de los productos
 
-    updateData(updatedProducts)
-
+    // Filtra los productos para eliminar el seleccionado
     const newListCart = updatedCart.filter((item) => item.id !== idx)
-    updateCart(newListCart)
+    updateCart(newListCart) // Actualiza el estado del carrito
   }
 
+  /**
+   * Agrega un producto al carrito de compras.
+   * @param idx - El identificador único del producto que se desea agregar.
+   */
   const handleAddToCart = (idx: number) => {
+    // Crea una copia del carrito actual
     const updatedCart = [...cart]
     const productIndex = updatedCart.findIndex((item) => item.id === idx)
 
+    // Verifica si el producto ya está en el carrito
     if (updatedCart[productIndex]?.quantity !== undefined && productIndex !== -1) {
+      // Incrementa la cantidad si ya existe
       updatedCart[productIndex].quantity += 1
     } else {
+      // Busca el producto en los datos generales
       const product = data.find((item) => item.id === idx)
       if (product) {
-        product.quantity = 1
-        updatedCart.push(product)
+        product.quantity = 1 // Asigna cantidad inicial de 1
+        updatedCart.push(product) // Agrega el producto al carrito
       }
     }
 
-    updateCart(updatedCart)
+    updateCart(updatedCart) // Actualiza el estado del carrito
 
+    // Reduce el stock del producto en los datos generales
     const updatedProducts = data.map((p) => (p.id === idx ? { ...p, stock: p.stock - 1 } : p))
-    updateData(updatedProducts)
+    updateData(updatedProducts) // Actualiza los datos de los productos
   }
 
+  /**
+   * Reduce la cantidad de un producto en el carrito o lo elimina si la cantidad es 0.
+   * @param idx - El identificador único del producto que se desea actualizar.
+   */
   const handleRemoveFromCart = (idx: number) => {
+    // Crea una copia del carrito actual
     const updatedCart = [...cart]
     const productIndex = updatedCart.findIndex((item) => item.id === idx)
 
     if (updatedCart[productIndex]?.quantity !== undefined && productIndex !== -1) {
+      // Si la cantidad es mayor a 1, la reduce
       if (updatedCart[productIndex].quantity > 1) {
-        // Reducir cantidad en el carrito
         updatedCart[productIndex].quantity -= 1
       } else {
-        // Remover el producto si la cantidad llega a 0
+        // Si la cantidad es 1, elimina el producto del carrito
         updatedCart.splice(productIndex, 1)
       }
     }
 
-    updateCart(updatedCart)
+    updateCart(updatedCart) // Actualiza el estado del carrito
 
-    // Actualizar el stock del producto en la lista
+    // Incrementa el stock del producto en los datos generales
     const updatedProducts = data.map((p) => (p.id === idx ? { ...p, stock: p.stock + 1 } : p))
-    console.log(updatedProducts)
-    updateData(updatedProducts)
+    console.log(updatedProducts) // Muestra en consola los productos actualizados
+    updateData(updatedProducts) // Actualiza los datos de los productos
   }
 
   return (

@@ -78,8 +78,10 @@ const Products = () => {
   }, [form])
 
   const sortTable = async (allData: any, keyCol: string, order: boolean) => {
-    setTableData([])
-    setBtnSort(keyCol)
+    setTableData([]) // Limpia temporalmente los datos de la tabla
+    setBtnSort(keyCol) // Establece la columna actual de ordenamiento
+
+    // Ordena los datos de forma ascendente o descendente según el valor de 'order'
     const sortedData = await allData.sort((a: any, b: any) => {
       if (b[keyCol] < a[keyCol]) {
         return order ? 1 : -1
@@ -87,24 +89,32 @@ const Products = () => {
       if (b[keyCol] > a[keyCol]) {
         return order ? -1 : 1
       }
-      return 0
+      return 0 // Si los valores son iguales, no cambia el orden
     })
-    setSortAsc(order)
-    setTableData(sortedData)
+
+    setSortAsc(order) // Actualiza el estado indicando el orden (ascendente/descendente)
+    setTableData(sortedData) // Establece los datos ordenados en la tabla
   }
 
+  /**
+   * Maneja los cambios en los campos del formulario.
+   * @param event - Evento que contiene el nuevo valor del campo del formulario.
+   */
   const handleChange = (event: any) => {
-    let { name, value } = event.target
+    let { name, value } = event.target // Extrae el nombre y el valor del campo que cambió
     setForm({
-      ...form,
-      [name]: value
+      ...form, // Mantiene los valores actuales del formulario
+      [name]: value // Actualiza el campo específico con su nuevo valor
     })
   }
 
+  /**
+   * Muestra los detalles de un elemento de la tabla en un cuadro de diálogo.
+   * @param item - Los datos del elemento seleccionado.
+   */
   const showItem = (item: StoreDataTypes) => {
-    console.log(item)
-    setDialogItem({ open: true, isNew: false, data: item })
-    setForm(item)
+    // Abre el cuadro de diálogo con los datos del elemento
+    setDialogItem({ open: true, data: item })
   }
 
   const handleRegister = (event: any) => {
