@@ -1,6 +1,6 @@
 import { Autocomplete, TextField, styled } from '@mui/material'
 
-const AutocompleteStyled = styled(Autocomplete)(({ theme }) => ({
+const AutocompleteStyled = styled(Autocomplete)(() => ({
   '.MuiAutocomplete-clearIndicator': {
     display: 'none'
   }

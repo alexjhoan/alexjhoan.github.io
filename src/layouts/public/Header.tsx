@@ -1,4 +1,5 @@
 import { Add, AdminPanelSettings, Close, Description, Home, Logout, Person, Remove, ShoppingCart } from '@mui/icons-material'
+import MenuIcon from '@mui/icons-material/Menu'
 import {
   AppBar,
   Box,
@@ -26,14 +27,10 @@ import {
 import Badge, { badgeClasses } from '@mui/material/Badge'
 import { enqueueSnackbar } from 'notistack'
 import { useState } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import TypographyMoney from '../../components/TypografyMoney'
 import Login from '../../forms/Login'
 import Register from '../../forms/Register'
-import { useStoreActions, useStoreSelected } from '../../store/products'
-import { useCartActions, useCartSelected, useUserActions, useUserSelected } from '../../store/user'
-import { containerWidth } from '../../utils/const'
-import viteLogo from '/vite.svg'
 import {
   useActionsOpenLogin,
   useActionsTypeForm,
@@ -42,7 +39,10 @@ import {
   useTypeForm,
   useViewsActions
 } from '../../store/dashboard'
-import MenuIcon from '@mui/icons-material/Menu'
+import { useStoreActions, useStoreSelected } from '../../store/products'
+import { useCartActions, useCartSelected, useUserActions, useUserSelected } from '../../store/user'
+import { containerWidth } from '../../utils/const'
+import viteLogo from '/vite.svg'
 
 const CustomDivider = styled(Divider)(({ theme }) => ({
   [`&.${dividerClasses.fullWidth}`]: {
@@ -92,7 +92,6 @@ const Header = () => {
   const { updateView } = useViewsActions()
   const [openCart, setOpenCart] = useState(false)
   const [openMenuMobile, setOpenMenuMobile] = useState(false)
-  const location = useLocation()
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (user.email) {
