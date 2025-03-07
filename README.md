@@ -20,27 +20,22 @@ Gestión de transacciones: Revisa el detalle de cada compra, incluyendo los prod
 
 Supervisión del stock: Asegúrate de que el inventario refleje las transacciones realizadas para una administración eficiente.
 
-## Technologies Used
-
-### Frontend:
+## Tecnologias usadas
 
 - **ViteJs**
 - **TypeScript**
 - **Material UI**
 - **Zustand**
 
-## Prerequisites
+## Prerequisitos
 
-Make sure you have the following installed:
+Asegurate de tener instalado
 
 - Node.js (recommended version: 14.x or higher)
 
+## Intalación
 
-## Installation and Setup
-
-Follow these steps to install and set up the project:
-
-1. Clone the repository en la carpeta de tu preferencia
+1. Clonar el repositorio en la carpeta de tu preferencia
 
    - `git clone https://github.com/alexjhoan/alexjhoan.github.io.git`
 
@@ -184,6 +179,10 @@ La integración de GitHub Pages asegura una rápida disponibilidad del proyecto 
 Se logra un flujo de desarrollo continuo, reduciendo el tiempo y el esfuerzo manual requerido para manejar despliegues.
 
 La facilidad de configuración y el uso gratuito lo convierten en una elección eficaz, permitiendo que el equipo se enfoque en el desarrollo del producto.
+
+### El proceso de despliegue y configuración de CI/CD.
+
+Para el proceso de despliegue solo con ir a github Action y realizar la configuracion del archivo de yml, github se en encarga de hacer todo el depligue una vez que se suben los cambios a la rama main.
 
 ## Author
 
