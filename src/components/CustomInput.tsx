@@ -3,23 +3,98 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import { FormControl, IconButton, InputAdornment, StandardTextFieldProps, TextField } from '@mui/material'
 import { ChangeEvent, useState } from 'react'
 
+/**
+ *
+ *
+ * @interface validationTypes
+ * @typedef {validationTypes}
+ */
 interface validationTypes {
+  /**
+   *
+   *
+   * @type {() => boolean}
+   */
   validate: () => boolean
+  /**
+   *
+   *
+   * @type {string}
+   */
   msg: string
 }
 
+/**
+ *
+ *
+ * @interface FancyInputTypes
+ * @typedef {FancyInputTypes}
+ * @extends {StandardTextFieldProps}
+ */
 interface FancyInputTypes extends StandardTextFieldProps {
+  /**
+   *
+   *
+   * @type {?validationTypes[]}
+   */
   validation?: validationTypes[]
+  /**
+   *
+   *
+   * @type {?boolean}
+   */
   onlyNumber?: boolean
+  /**
+   *
+   *
+   * @type {?number}
+   */
   maxLength?: number
+  /**
+   *
+   *
+   * @type {?boolean}
+   */
   validateSubmit?: boolean
+  /**
+   *
+   *
+   * @type {?number}
+   */
   mb?: number
 }
 
+/**
+ *
+ *
+ * @export
+ * @param {string} email
+ * @returns {boolean}
+ */
 export function isValidEmail(email: string) {
   return /\S+@\S+\.\S+/.test(email)
 }
 
+/**
+ *
+ *
+ * @param {FancyInputTypes} param0
+ * @param {*} param0.label
+ * @param {*} param0.name
+ * @param {*} param0.value
+ * @param {*} param0.variant
+ * @param {*} param0.required
+ * @param {validationTypes[]} param0.validation
+ * @param {*} param0.type
+ * @param {*} param0.multiline
+ * @param {*} param0.helperText
+ * @param {*} param0.onChange
+ * @param {number} param0.maxLength
+ * @param {boolean} param0.validateSubmit
+ * @param {number} param0.mb
+ * @param {{ onlyNumber?: boolean; }} param0....rest
+ * @returns {*}
+ */
 const CustomInput = ({
   label,
   name,

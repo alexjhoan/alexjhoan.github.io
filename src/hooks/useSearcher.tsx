@@ -2,6 +2,11 @@ import { ChangeEvent, useState } from 'react'
 import { Stack } from '@mui/material'
 import CustomInput from '../components/CustomInput'
 
+/**
+ *
+ *
+ * @returns {{ getAllDataSearch: (getDataComponente: any) => void; searchedData: any; inputSearch: any; InputSearcher: any; }}
+ */
 export const useSearcher = () => {
   const [inputSearch, setInputSearch] = useState<string>('')
   const [searchedData, setSearchedData] = useState<any>(undefined)

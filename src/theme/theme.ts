@@ -1,5 +1,10 @@
 import { createTheme, responsiveFontSizes } from '@mui/material/styles'
 
+/**
+ *
+ *
+ * @type {{ primary: { main: string; light: string; }; secondary: { main: string; }; text: { primary: string; secondary: string; tertiary: string; }; }}
+ */
 const colors = {
   primary: {
     main: '#10823d',
@@ -61,6 +66,13 @@ const theme = responsiveFontSizes(
         styleOverrides: {
           tooltip: {
             fontSize: 16
+          }
+        }
+      },
+      MuiDivider: {
+        styleOverrides: {
+          root: {
+            borderColor: '#0006'
           }
         }
       }

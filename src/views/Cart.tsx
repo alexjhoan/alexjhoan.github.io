@@ -1,4 +1,4 @@
-import { Delete, ProductionQuantityLimits, Remove, Reply, ShoppingCartCheckout } from '@mui/icons-material'
+import { Delete, Remove, Reply, ShoppingCartCheckout } from '@mui/icons-material'
 import Add from '@mui/icons-material/Add'
 import {
   Box,
@@ -62,19 +62,15 @@ const Cart = () => {
   const { updateCart } = useCartActions()
 
   const clearCart = () => {
-    // Crear una copia del carrito actual
     const updatedCart = [...cart]
 
-    // Actualizar los productos sumando las cantidades de los items del carrito
     const updatedProducts = data.map((product) => {
       const cartItem = updatedCart.find((item) => item.id === product.id)
       return cartItem ? { ...product, stock: product.stock + (cartItem.quantity ? cartItem.quantity : 0) } : product
     })
 
-    // Actualizar el estado de productos
     updateData(updatedProducts)
 
-    // Vaciar el carrito
     updateCart([])
   }
 

@@ -11,6 +11,11 @@ import { useUsersActions, useUsersSelected } from '../../store/user'
 import { UserDataTypes } from '../../types/types'
 import { containerWidth, userFormInit } from '../../utils/const'
 
+/**
+ *
+ *
+ * @type {{ key: string; name: string; }[]}
+ */
 const tableHead = [
   {
     key: 'first_name',

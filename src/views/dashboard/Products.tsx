@@ -11,6 +11,11 @@ import { StoreDataTypes } from '../../types/types'
 import { containerWidth, productFormInit, userFormInit } from '../../utils/const'
 import { CustomSelect } from '../../components/CustomSelect'
 
+/**
+ *
+ *
+ * @type {{ key: string; name: string; }[]}
+ */
 const tableHead = [
   {
     key: 'id',

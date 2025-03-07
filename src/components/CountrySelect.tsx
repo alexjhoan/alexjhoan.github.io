@@ -1,13 +1,49 @@
 import { useEffect, useState } from 'react'
 import AutocompleteCustom from './AutocompleteCustom'
 
+/**
+ *
+ *
+ * @interface CountrySelectTypes
+ * @typedef {CountrySelectTypes}
+ */
 interface CountrySelectTypes {
+  /**
+   *
+   *
+   * @type {(string | null)}
+   */
   value: string | null
+  /**
+   *
+   *
+   * @type {string}
+   */
   name: string
+  /**
+   *
+   *
+   * @type {string}
+   */
   label: string
+  /**
+   *
+   *
+   * @type {(_event: any, newValue: any) => void}
+   */
   onChange: (_event: any, newValue: any) => void
 }
 
+/**
+ *
+ *
+ * @param {CountrySelectTypes} param0
+ * @param {string} param0.value
+ * @param {string} param0.label
+ * @param {string} param0.name
+ * @param {(_event: any, newValue: any) => void} param0.onChange
+ * @returns {*}
+ */
 const CountrySelect = ({ value, label, name, onChange }: CountrySelectTypes) => {
   const [countries, setCountries] = useState([])
   useEffect(() => {

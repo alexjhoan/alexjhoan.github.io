@@ -2,6 +2,13 @@ import { Box, Card, CardContent, Stack, Typography } from '@mui/material'
 import { invoicesTypes, StoreDataTypes } from '../types/types'
 import TypographyMoney from './TypografyMoney'
 
+/**
+ *
+ *
+ * @param {({ data: invoicesTypes | undefined })} param0
+ * @param {invoicesTypes} param0.data
+ * @returns {*}
+ */
 const InvoicingDetail = ({ data }: { data: invoicesTypes | undefined }) => {
   return (
     <>

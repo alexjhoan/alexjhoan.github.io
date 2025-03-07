@@ -26,7 +26,7 @@ import {
 import Badge, { badgeClasses } from '@mui/material/Badge'
 import { enqueueSnackbar } from 'notistack'
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router'
+import { Link, useLocation, useNavigate } from 'react-router'
 import TypographyMoney from '../../components/TypografyMoney'
 import Login from '../../forms/Login'
 import Register from '../../forms/Register'
@@ -92,6 +92,7 @@ const Header = () => {
   const { updateView } = useViewsActions()
   const [openCart, setOpenCart] = useState(false)
   const [openMenuMobile, setOpenMenuMobile] = useState(false)
+  const location = useLocation()
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (user.email) {
@@ -190,7 +191,7 @@ const Header = () => {
   }
 
   return (
-    <AppBarContainer position="fixed">
+    <AppBarContainer position="fixed" sx={{ width: '100vw', right: 'auto' }}>
       <Container maxWidth={containerWidth}>
         <Toolbar sx={{ padding: '0!important', display: 'flex', justifyContent: 'space-between' }}>
           <Box>
@@ -206,18 +207,16 @@ const Header = () => {
           </Box>
           {user.email && (
             <Box sx={{ display: { xs: 'none', lg: 'flex' } }} gap={isSm ? 1 : 3}>
-              {user.role === 'Administrador' && (
-                <Button
-                  variant="text"
-                  sx={{ color: theme.palette.common.white, fontWeight: 700 }}
-                  onClick={() => {
-                    updateView('Inventario')
-                    navigate('/dashboard')
-                  }}
-                >
-                  Dashboard
-                </Button>
-              )}
+              <Button
+                variant="text"
+                sx={{ color: theme.palette.common.white, fontWeight: 700 }}
+                onClick={() => {
+                  updateView('')
+                  navigate('/dashboard')
+                }}
+              >
+                Dashboard
+              </Button>
               <Button variant="text" sx={{ color: theme.palette.common.white, fontWeight: 700 }} onClick={() => navigate('/')}>
                 Inicio
               </Button>
@@ -227,26 +226,6 @@ const Header = () => {
                 onClick={() => navigate('/cart')}
               >
                 Mi pedido
-              </Button>
-              <Button
-                variant="text"
-                sx={{ color: theme.palette.common.white, fontWeight: 700 }}
-                onClick={() => {
-                  updateView('Facturacion')
-                  navigate('/dashboard')
-                }}
-              >
-                Historial de facturas
-              </Button>
-              <Button
-                variant="text"
-                sx={{ color: theme.palette.common.white, fontWeight: 700 }}
-                onClick={() => {
-                  updateView('Perfil')
-                  navigate('/dashboard')
-                }}
-              >
-                Perfil
               </Button>
             </Box>
           )}

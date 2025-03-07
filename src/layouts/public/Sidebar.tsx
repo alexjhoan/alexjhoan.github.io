@@ -1,4 +1,4 @@
-import { Box, ListItemText, MenuItem, MenuList, styled, Typography } from '@mui/material'
+import { Box, Divider, ListItemText, MenuItem, MenuList, styled, Typography } from '@mui/material'
 import { useEffect } from 'react'
 import { useCategoriesSelected, useCategorySelected, useStoreActions, useStoreSelected } from '../../store/products'
 
@@ -34,7 +34,8 @@ const Sidebar = () => {
 
   return (
     <ContainerSidebar>
-      <Typography variant="h6">Categorias</Typography>
+      <Typography variant="h6">Categorías</Typography>
+      <Divider sx={{ mt: 1 }} />
       <MenuList sx={{ pb: 0 }}>
         <MenuItem className={category === 'Todo' ? 'item-active' : ''} onClick={() => updateCategory('Todo')}>
           <ListItemText>Todo</ListItemText>

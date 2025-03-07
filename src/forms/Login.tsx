@@ -4,12 +4,29 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import CustomInput, { isValidEmail } from '../components/CustomInput'
 import { useUserActions, useUsersSelected } from '../store/user'
+import { useViewsActions } from '../store/dashboard'
 
+/**
+ *
+ *
+ * @type {{ email: string; password: string; }}
+ */
 const loginFormInit = {
   email: '',
   password: ''
 }
 
+/**
+ *
+ *
+ * @param {{
+ *   setTypeForm: (type: number) => void
+ *   setAnchorEl: (type: null | HTMLElement) => void
+ * }} param0
+ * @param {(type: number) => void} param0.setTypeForm
+ * @param {(type: HTMLElement) => void} param0.setAnchorEl
+ * @returns {void; setAnchorEl: (type: HTMLElement) => void; }) => any}
+ */
 const Login = ({
   setTypeForm,
   setAnchorEl
@@ -22,6 +39,7 @@ const Login = ({
   const users = useUsersSelected()
   const { updateUser } = useUserActions()
   const navigate = useNavigate()
+  const { updateView } = useViewsActions()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value })
@@ -35,10 +53,10 @@ const Login = ({
       if (getUser?.password === form.password) {
         enqueueSnackbar(`Bienvenido ${getUser.first_name} ${getUser.last_name}`, { variant: 'success' })
         if (getUser.role === 'Administrador') {
+          updateView('')
           navigate('/dashboard')
-        } else {
-          setAnchorEl(null)
         }
+        setAnchorEl(null)
         updateUser(getUser)
       } else {
         enqueueSnackbar(`Contraseña invalida`, { variant: 'error' })

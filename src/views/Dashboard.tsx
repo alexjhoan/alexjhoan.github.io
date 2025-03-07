@@ -1,3 +1,4 @@
+import { Box } from '@mui/material'
 import DashboardLayout from '../layouts/Dashboard'
 import { useViewSelected } from '../store/dashboard'
 import Invoicing from './dashboard/Invoicing'
@@ -15,11 +16,7 @@ const Dashboard = () => {
     Perfil: <Perfil />
   }
 
-  return (
-    <DashboardLayout>
-      <>{components[view]}</>
-    </DashboardLayout>
-  )
+  return <DashboardLayout>{view === '' ? <Box></Box> : <>{components[view]}</>}</DashboardLayout>
 }
 
 export default Dashboard

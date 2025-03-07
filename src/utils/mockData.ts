@@ -1,3 +1,8 @@
+/**
+ *
+ *
+ * @type {{ id: number; name: string; category: string; stock: number; price: number; tax: number; }[]}
+ */
 export const mockData = [
   { id: 1, name: 'Manzana Roja', category: 'Frutas Frescas', stock: 50, price: 2000, tax: 0.19 },
   { id: 2, name: 'Manzana Verde', category: 'Frutas Frescas', stock: 30, price: 3000, tax: 0 },

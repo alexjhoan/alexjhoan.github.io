@@ -27,13 +27,51 @@ const TableBodyStyled = styled(TableBody)(() => ({
   }
 }))
 
+/**
+ *
+ *
+ * @interface TablesTypes
+ * @typedef {TablesTypes}
+ * @extends {TableProps}
+ */
 interface TablesTypes extends TableProps {
+  /**
+   *
+   *
+   * @type {*}
+   */
   rowHead: any
+  /**
+   *
+   *
+   * @type {?boolean}
+   */
   actions?: boolean
+  /**
+   *
+   *
+   * @type {*}
+   */
   children: any
+  /**
+   *
+   *
+   * @type {?number}
+   */
   minWidth?: number
 }
 
+/**
+ *
+ *
+ * @param {TablesTypes} param0
+ * @param {*} param0.rowHead
+ * @param {*} param0.children
+ * @param {boolean} param0.actions
+ * @param {number} param0.minWidth
+ * @param {{}} param0....rest
+ * @returns {*}
+ */
 export const Tables = ({ rowHead, children, actions, minWidth, ...rest }: TablesTypes) => {
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -56,14 +94,57 @@ export const Tables = ({ rowHead, children, actions, minWidth, ...rest }: Tables
   )
 }
 
+/**
+ *
+ *
+ * @interface TableHeadItemTypes
+ * @typedef {TableHeadItemTypes}
+ * @extends {StackProps}
+ */
 interface TableHeadItemTypes extends StackProps {
+  /**
+   *
+   *
+   * @type {*}
+   */
   name: any
+  /**
+   *
+   *
+   * @type {*}
+   */
   arrowsHidden: any
+  /**
+   *
+   *
+   * @type {*}
+   */
   modeSort: any
+  /**
+   *
+   *
+   * @type {?*}
+   */
   onClick?: any
+  /**
+   *
+   *
+   * @type {?('inherit' | 'left' | 'center' | 'right' | 'justify')}
+   */
   align?: 'inherit' | 'left' | 'center' | 'right' | 'justify'
 }
 
+/**
+ *
+ *
+ * @param {TableHeadItemTypes} param0
+ * @param {*} param0.name
+ * @param {*} param0.arrowsHidden
+ * @param {*} param0.modeSort
+ * @param {*} param0.onClick
+ * @param {({ align?: "inherit" | "left" | "center" | "right" | "justify"; })} param0....rest
+ * @returns {*}
+ */
 export const TableHeadItem = ({ name, arrowsHidden, modeSort, onClick, ...rest }: TableHeadItemTypes) => {
   return (
     <TableCell>

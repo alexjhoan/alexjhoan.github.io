@@ -9,6 +9,11 @@ import { useUserSelected } from '../../store/user'
 import { dialogItemTypes, invoicesTypes } from '../../types/types'
 import { containerWidth } from '../../utils/const'
 
+/**
+ *
+ *
+ * @type {{ key: string; name: string; }[]}
+ */
 const tableHead = [
   {
     key: 'id',

@@ -9,6 +9,13 @@ import CountrySelect from '../components/CountrySelect'
 import { userFormInit } from '../utils/const'
 import { useActionsOpenLogin } from '../store/dashboard'
 
+/**
+ *
+ *
+ * @param {{ setTypeForm: (type: number) => void }} param0
+ * @param {(type: number) => void} param0.setTypeForm
+ * @returns {void; }) => any}
+ */
 const Register = ({ setTypeForm }: { setTypeForm: (type: number) => void }) => {
   const [form, setForm] = useState<UserDataTypes>(userFormInit)
   const [disabled, setDisabled] = useState(true)
