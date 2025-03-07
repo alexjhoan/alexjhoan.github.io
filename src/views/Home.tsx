@@ -13,8 +13,9 @@ import {
   useMediaQuery,
   useTheme
 } from '@mui/material'
-import { enqueueSnackbar } from 'notistack'
 import { useEffect, useState } from 'react'
+import { Autoplay, Navigation } from 'swiper/modules'
+import { Swiper, SwiperSlide } from 'swiper/react'
 import AutocompleteCustom from '../components/AutocompleteCustom'
 import TypographyMoney from '../components/TypografyMoney'
 import { useSearcher } from '../hooks/useSearcher'
@@ -23,8 +24,6 @@ import { useCategoriesSelected, useCategorySelected, useStoreActions, useStoreSe
 import { useCartActions, useCartSelected } from '../store/user'
 import { StoreDataTypes } from '../types/types'
 import { containerWidth } from '../utils/const'
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Navigation, Autoplay } from 'swiper/modules'
 // @ts-ignore
 import 'swiper/css'
 // @ts-ignore

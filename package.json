@@ -1,7 +1,7 @@
 {
-  "homepage": "https://alexjhoan.github.io/shop-test",
+  "homepage": "https://alexjhoan.github.io",
   "name": "shop-test",
-  "private": true,
+  "private": false,
   "version": "1.0.0",
   "type": "module",
   "scripts": {
